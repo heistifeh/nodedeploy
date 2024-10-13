@@ -1,0 +1,54 @@
+[
+    {
+        "name": "AMAZON"
+    },
+    {
+        "name" : "APPLE"
+    },
+    {
+        "name" : "STEAM"
+    },
+    {
+        "name" : "eBAY"
+    },
+    {
+        "name" : "GOOGLEPLAY"
+    },
+    {
+        "name" : "PLAYSTATION"
+    },
+    {
+        "name" : "SEPHORA"
+    },
+    {
+        "name" : "MACY"
+    },
+    {
+        "name" : "NORDSTORM"
+    },
+    {
+        "name" : "NIKE"
+    },
+    {
+        "name" : "MASTERCARD"
+    },
+    {
+        "name" : "TARGET"
+    },
+    {
+        "name" : "VANILLA VISA"
+    },
+    {
+        "name" : "WALLMART VISA"
+    },
+    {
+        "name" : "VISA SILERY WHITE"
+    },
+    {
+        "name" : "TT ISA"
+    },
+    {
+        "name" : "AMEX"
+    }
+    
+]

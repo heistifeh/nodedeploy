@@ -1,0 +1,150 @@
+.headline {
+    font-size: .5em;
+    padding: 0 40px;
+    text-align: center;
+}
+.headline-text{
+    margin: 70px;
+    text-align: center;
+}
+span{
+    display: block;
+    color: red;
+}
+.product-verify{
+    padding-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    width: 80%;
+    margin: auto;
+}
+form{
+    margin: 70px 0;
+    display: flex;
+    flex-direction: column;
+}
+form p{
+    font-size: large;
+}
+select, input{
+    width: 900px;
+    text-align: center;
+    height: 40px;
+    border-radius: 10px;
+}
+.email{
+    width: 900px;
+    text-align: left;
+    padding: 20px 30px;
+    height: 40px;
+    
+}
+.email-section{
+    position: relative;
+}
+.email-section i{
+    position: absolute;
+    top:30%;
+    padding: 0 10px;
+}
+.text-guide{
+    font-weight: bold;
+
+}
+label{
+    display: block;
+}
+
+/* .file{
+    width: ;
+} */
+.btn-verify{
+    padding: 30px;
+    border: none;
+    font-size: larger;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.btn-verify:hover{
+    background-color: #fff;
+    color: var(--primary-color);
+}
+
+.wait-text{
+    font-style: italic;
+    
+}
+/* Tablets */
+@media only screen and (min-width: 768px) and (max-width: 1200px) {
+    
+    .headline{
+        font-size: .8em;
+    }
+    select, input{
+        width: 450px;
+        text-align: center;
+        height: 30px;
+    }
+    .email{
+        width: 450px;
+        height: 30px;
+    }
+    span, p{
+        font-size: smaller;
+    }
+    .headline-text{
+        margin: 20px;
+    }
+    form{
+        margin: 40px 0;
+    }
+    .text-guide{
+        font-size: small;
+    }
+    .btn-verify{
+        margin: 30px 0;
+        padding: 20px;
+        border: none;
+        font-size: large;
+        font-weight: bold;
+    }
+    
+   
+}
+@media only screen and (max-width: 767px) {
+    .headline{
+        font-size: .8em;
+    }
+    .product-verify{
+        width: 90%;
+    }
+    select, input{
+        width: 250px;
+        text-align: center;
+        height: 30px;
+    }
+    .email{
+        width: 250px;
+        height: 30px;
+    }
+    span, p{
+        font-size: smaller;
+    }
+    .headline-text{
+        margin: 20px;
+    }
+    form{
+        margin: 40px 0;
+    }
+    .text-guide{
+        font-size: small;
+    }
+    .btn-verify{
+        margin: 30px 0;
+        padding: 20px;
+        border: none;
+        font-size: large;
+        font-weight: bold;
+    }
+}
+

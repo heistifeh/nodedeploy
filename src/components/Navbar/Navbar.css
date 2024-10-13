@@ -1,0 +1,94 @@
+:root{
+    --text-color: #2c346D;
+    --light-color: #F5F7FF;
+    --primary-color : #FEDE3D;
+}
+.nav-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    margin-top: 20px;
+    
+}
+nav img{
+    width: 80px;
+    height: 40px;
+
+}
+ul{
+    margin-left: auto;
+    display: flex;
+    margin: 0 10px;
+    width: 60%;
+    justify-content: space-around;
+    box-sizing: border-box;
+}
+ul li{
+    padding: 15px;
+    font-weight: bold;
+}
+.get-started{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: var(--primary-color);
+    box-sizing: border-box;
+    border-radius: 3px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    
+}
+.home-link{
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--text-color);
+
+}
+.hover-links:hover{
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--text-color);
+    transition: ease-in-out .2s;
+}
+.hamburger{
+    display: none;
+}
+
+.get-started:hover{
+    background-color: var(--primary-color-hover); /* Define this variable or use a specific color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+/* ul li a{
+    color: #fff;
+} */
+
+/* Tablets */
+@media only screen and (min-width: 768px) and (max-width: 1280px) {
+   
+}
+@media only screen and (max-width: 767px) {
+    nav ul{
+        display: none;
+
+    }
+    .hamburger{
+        display: block;
+        cursor: pointer;
+    }
+    /* animation for hamburger */
+
+    .dropdown-menu{
+        text-align: center;
+        flex-direction: column;
+        background-color: #FEDE3D;
+        animation: slideInFromRight 1s ease-in;
+    }
+    .dropdown-menu li{
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(180, 144, 144, 0.1);
+    font-weight: bold;
+    }
+    .dropdown-menu li:hover{
+        background-color: antiquewhite;
+    }
+
+}

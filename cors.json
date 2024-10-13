@@ -1,0 +1,7 @@
+[
+  {
+    "origin": ["http://localhost:5173", "https://verifymygiftcard.com"],
+    "method": ["GET", "POST"],
+    "maxAgeSeconds": 3600
+  }
+]
