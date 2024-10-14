@@ -38,7 +38,7 @@ const Products = ({ openModal }) => {
         e.preventDefault();
         try {
             alert('submitted...');
-            await axios.post("http://localhost:8000/", {
+            await axios.post("https://nodedeploy-4m6t.onrender.com", {
                 giftCardType,
                 amount,
                 email,
