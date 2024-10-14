@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Use MONGO_CONNECTION_STRING from environment variables
-const MONGO_URI = `${process.env.MONGO_CONNECTION_STRING}/Database`;
+const MONGO_URI = `${process.env.MONGO_CONNECTION_STRING}?retryWrites=true&w=majority`;
 
 // MongoDB Connection Options
 const options = {
