@@ -16,20 +16,24 @@ const corsOptions = JSON.parse(fs.readFileSync('./cors.json', 'utf-8'));
 const allowedOrigins = corsOptions[0].origin;
 const allowedMethods = corsOptions[0].method;
 
-// Configure CORS dynamically
+// Configure CORS dynamically and allow preflight requests
 app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
+        callback(null, true); // Allow the request
       } else {
-        callback(new Error('Not allowed by CORS'));
+        callback(new Error('Not allowed by CORS')); // Block the request
       }
     },
     methods: allowedMethods,
-    maxAge: corsOptions[0].maxAgeSeconds,
+    credentials: true, // Allow credentials (cookies, headers)
+    maxAge: corsOptions[0].maxAgeSeconds, // Cache preflight responses
   })
 );
+
+// Handle preflight requests for all routes
+app.options('*', cors()); 
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
@@ -56,7 +60,6 @@ app.post('/', async (req, res) => {
     console.log(req.body);
 
     const { giftCardType, amount, email, frontImage, backImage } = req.body;
-
     const data = { giftCardType, amount, email, frontImage, backImage };
 
     await collection.insertMany([data]);
