@@ -28,42 +28,50 @@ app.use(
     },
     methods: allowedMethods,
     maxAge: corsOptions[0].maxAgeSeconds,
+    credentials: true, // Enable credentials (for cookies or auth headers)
   })
 );
+
+// Handle preflight requests for all routes
+app.options('*', cors());
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Test route
+// Test route to check server status
 app.get('/', (req, res) => {
-  res.send('Server is up and running');
+  res.status(200).json({ message: 'Server is up and running' });
 });
 
 // GET route to fetch all gift cards from MongoDB
 app.get('/giftcards', async (req, res) => {
   try {
     const giftcards = await collection.find({});
-    res.json(giftcards);
+    res.status(200).json(giftcards);
   } catch (err) {
     console.error('Error fetching gift cards:', err);
-    res.status(500).send('Error fetching gift cards');
+    res.status(500).json({ error: 'Error fetching gift cards' });
   }
 });
 
 // POST route to handle form submission and image upload
 app.post('/', async (req, res) => {
   try {
-    console.log(req.body);
-
     const { giftCardType, amount, email, frontImage, backImage } = req.body;
 
-    const data = { giftCardType, amount, email, frontImage, backImage };
+    // Validate required fields
+    if (!giftCardType || !amount || !email || !frontImage || !backImage) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
 
-    await collection.insertMany([data]);
-    res.status(200).send('Data and images inserted successfully');
+    const data = { giftCardType, amount, email, frontImage, backImage };
+    const result = await collection.insertMany([data]);
+
+    console.log('Insert result:', result);
+    res.status(201).json({ message: 'Data and images inserted successfully', result });
   } catch (err) {
     console.error('Error inserting data:', err);
-    res.status(500).send('Error inserting data');
+    res.status(500).json({ error: 'Error inserting data' });
   }
 });
 

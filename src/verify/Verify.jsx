@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../home/footer/Footer';
 import Banner from './banner/Banner';
@@ -7,28 +7,37 @@ import Gifts from '../home/gifts/Gifts';
 import Modal from '../components/Modal/Modal';
 
 const Verify = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);  // State to control modal visibility
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [cardDetails, setCardDetails] = useState({ giftCardType: '', amount: '' });
 
-  // Function to open the modal
-  const openModal = () => {
+  // Function to open the modal with card details
+  const openModal = (giftCardType, amount) => {
+    setCardDetails({ giftCardType, amount });
     setIsModalOpen(true);
   };
 
-  // Function to close the modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const closeModal = () => setIsModalOpen(false); // Close the modal
+
+  // Prevent background scroll when the modal is open
+  useEffect(() => {
+    document.body.style.overflow = isModalOpen ? 'hidden' : 'auto';
+  }, [isModalOpen]);
 
   return (
     <>
       <Navbar />
       <Banner />
-      <Products openModal={openModal} /> 
+      <Products openModal={openModal} />  {/* Pass openModal to Products */}
       <Gifts />
       <Footer />
-      {isModalOpen && <Modal closeModal={closeModal} />}
+      {isModalOpen && (
+        <Modal 
+          closeModal={closeModal} 
+          cardDetails={cardDetails}  // Pass card details to Modal
+        />
+      )}
     </>
   );
-}
+};
 
 export default Verify;

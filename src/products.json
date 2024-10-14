@@ -45,10 +45,13 @@
         "name" : "VISA SILERY WHITE"
     },
     {
-        "name" : "TT ISA"
+        "name" : "TT VISA"
     },
     {
         "name" : "AMEX"
+    },
+    {
+        "name" : "UBER"
     }
     
 ]

