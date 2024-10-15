@@ -11,8 +11,8 @@ import {
 } from "react-router-dom";
 import Home from './home/Home.jsx';
 import Verify from './verify/Verify.jsx';
-import GiftCardList from './components/GiftCardList';
-import Login from './components/Login';
+import GiftCardList from './components/GiftCardList.jsx';
+import Login from './components/Login/Login.jsx';
 
 // Authenticated Route Wrapper
 const PrivateRoute = ({ element }) => {
