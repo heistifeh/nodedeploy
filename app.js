@@ -4,30 +4,32 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import fs from 'fs';
 
 dotenv.config(); // Load environment variables
 
 const app = express();
 const PORT = process.env.PORT || 3000; // Use PORT from environment or default to 3000
-const SECRET_KEY = 'your_jwt_secret_key'; // Use a secure secret key
+const SECRET_KEY = process.env.SECRET_KEY || 'your_jwt_secret_key'; // Secure secret key from env
 
-// Hardcoded user for testing
+// Hardcoded user for testing purposes
 const users = [
   { id: 1, username: 'drizzy', password: bcrypt.hashSync('hawktuah2024', 8) }
 ];
 
-// Enable CORS with default setup for testing purposes
-app.use(cors({
-  origin: '*', // Allow all origins for testing (can be restricted to your frontend URL later)
-  methods: ['GET', 'POST'], // Allowed methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
-}));
+// Enable CORS with proper configuration
+app.use(
+  cors({
+    origin: 'https://verifymygiftcard.com', // Replace with your frontend URL
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, // Allow credentials (if needed)
+  })
+);
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Root route to confirm backend is running
+// Root route to verify the server status
 app.get('/', (req, res) => {
   res.send('Server is up and running!');
 });
@@ -42,10 +44,11 @@ const authenticateJWT = (req, res, next) => {
 
   jwt.verify(token, SECRET_KEY, (err, decoded) => {
     if (err) {
+      console.error('Token verification failed:', err);
       return res.status(403).json({ message: 'Invalid token' });
     }
-    req.user = decoded; // Attach user info to request object
-    next(); // Call the next middleware or route handler
+    req.user = decoded; // Attach user info to the request object
+    next(); // Proceed to the next middleware or route handler
   });
 };
 

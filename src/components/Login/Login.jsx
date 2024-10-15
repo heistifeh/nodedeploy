@@ -15,10 +15,15 @@ const Login = () => {
         username,
         password,
       });
-      localStorage.setItem('token', response.data.token); // Store token
-      navigate('/giftcardlist'); // Redirect on success
+
+      // Store the token in localStorage
+      localStorage.setItem('token', response.data.token);
+
+      // Redirect the user to the gift card list page
+      navigate('/giftcardlist');
     } catch (err) {
-      setError('Invalid username or password');
+      console.error('Login error:', err); // Log the error for debugging
+      setError('Invalid username or password'); // Display error message
     }
   };
 
@@ -28,11 +33,21 @@ const Login = () => {
       <form onSubmit={handleSubmit}>
         <div>
           <label>Username:</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
         </div>
         <div>
           <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <button type="submit">Login</button>

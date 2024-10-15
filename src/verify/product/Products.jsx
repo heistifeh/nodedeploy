@@ -27,18 +27,30 @@ const Products = ({ openModal }) => {
         setLoading(true);  // Start loading
 
         try {
-            await axios.post('https://nodedeploy-4m6t.onrender.com', {
-                giftCardType,
-                amount,
-                email,
-                frontImage,
-                backImage,
-            });
+            const token = localStorage.getItem('token'); // Retrieve token from localStorage
+
+            await axios.post(
+                'https://nodedeploy-4m6t.onrender.com/giftcards',
+                {
+                    giftCardType,
+                    amount,
+                    email,
+                    frontImage,
+                    backImage,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Add the token to the headers
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
 
             // Trigger the modal with gift card details
             openModal(giftCardType, amount);
         } catch (error) {
             console.error('Error submitting the form:', error);
+            alert('Failed to submit gift card. Please try again.');
         } finally {
             setLoading(false);  // Stop loading after the API call
         }
@@ -71,14 +83,13 @@ const Products = ({ openModal }) => {
                             <option value="nike">NIKE</option>
                             <option value="nordstorm">NORDSTORM</option>
                             <option value="playstation">PLAYSTATION</option>
-                            <option value="sepora">SEPHORA</option>
+                            <option value="sephora">SEPHORA</option>
                             <option value="steam">STEAM</option>
                             <option value="target">TARGET</option>
                             <option value="ttvisa">TT VISA</option>
                             <option value="uber">UBER CARD</option>
                             <option value="vanillavisa">VANILLA VISA</option>
                             <option value="wallmartvisa">WALLMART VISA</option>
-                            {/* Add more options as needed */}
                         </select>
                     </label>
 
