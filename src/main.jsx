@@ -7,34 +7,46 @@ import 'swiper/css';
 import {
   createBrowserRouter,
   RouterProvider,
+  Navigate,
 } from "react-router-dom";
 import Home from './home/Home.jsx';
 import Verify from './verify/Verify.jsx';
 import GiftCardList from './components/GiftCardList';
+import Login from './components/Login';
 
-const rootElement = document.getElementById('root');
-const root = createRoot(rootElement); // Create a root.
+// Authenticated Route Wrapper
+const PrivateRoute = ({ element }) => {
+  const token = localStorage.getItem('token'); // Check if token exists
+  return token ? element : <Navigate to="/login" />; // Redirect if not authenticated
+};
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    children:[
+    children: [
       {
-        path: '/', // Generally, this would be the landing or main page.
-        element: <Home />
+        path: '/', 
+        element: <Home /> // Public Route
       },
       {
-        path: '/verify', // Example path for the Verify component.
-        element: <Verify />
+        path: '/verify',
+        element: <Verify /> // Public Route
       },
       {
-        path: '/giftcardlist', // Example path for the Verify component.
-        element: <GiftCardList />
+        path: '/login',
+        element: <Login /> // Public Route for Login
+      },
+      {
+        path: '/giftcardlist', // Protected Route
+        element: <PrivateRoute element={<GiftCardList />} />
       }
     ]
   },
 ]);
+
+const rootElement = document.getElementById('root');
+const root = createRoot(rootElement); // Create a root.
 
 root.render(
   <StrictMode>

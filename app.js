@@ -2,49 +2,70 @@ import express from 'express';
 import collection from './mongo.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import fs from 'fs'; // Import fs to read cors.json
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import fs from 'fs';
 
 dotenv.config(); // Load environment variables
 
 const app = express();
-const PORT = process.env.PORT || 80; // Use PORT from environment or default to 80
+const PORT = process.env.PORT || 80;
+const SECRET_KEY = 'your_jwt_secret_key'; // Use a secure secret key
 
-// Load CORS configuration from cors.json
+const users = [
+  { id: 1, username: 'drizzy', password: bcrypt.hashSync('hawktuah2024', 8) }
+];
+
+// CORS configuration
 const corsOptions = JSON.parse(fs.readFileSync('./cors.json', 'utf-8'));
-
-// Extract origins and methods from corsOptions
 const allowedOrigins = corsOptions[0].origin;
 const allowedMethods = corsOptions[0].method;
 
-// Configure CORS dynamically and allow preflight requests
 app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true); // Allow the request
+        callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS')); // Block the request
+        callback(new Error('Not allowed by CORS'));
       }
     },
     methods: allowedMethods,
-    credentials: true, // Allow credentials (cookies, headers)
-    maxAge: corsOptions[0].maxAgeSeconds, // Cache preflight responses
+    credentials: true,
+    maxAge: corsOptions[0].maxAgeSeconds,
   })
 );
-
-// Handle preflight requests for all routes
-app.options('*', cors()); 
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Test route
-app.get('/', (req, res) => {
-  res.send('Server is up and running');
+// JWT authentication middleware
+const authenticateJWT = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).json({ message: 'Authentication token required' });
+
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    if (err) return res.status(403).json({ message: 'Invalid token' });
+    req.user = decoded;
+    next();
+  });
+};
+
+// Login route
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  const user = users.find((u) => u.username === username);
+  
+  if (!user || !bcrypt.compareSync(password, user.password)) {
+    return res.status(401).json({ message: 'Invalid credentials' });
+  }
+
+  const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
+  res.json({ token });
 });
 
-// GET route to fetch all gift cards from MongoDB
-app.get('/giftcards', async (req, res) => {
+// Protected route to fetch gift cards
+app.get('/giftcards', authenticateJWT, async (req, res) => {
   try {
     const giftcards = await collection.find({});
     res.json(giftcards);
@@ -54,23 +75,4 @@ app.get('/giftcards', async (req, res) => {
   }
 });
 
-// POST route to handle form submission and image upload
-app.post('/', async (req, res) => {
-  try {
-    console.log(req.body);
-
-    const { giftCardType, amount, email, frontImage, backImage } = req.body;
-    const data = { giftCardType, amount, email, frontImage, backImage };
-
-    await collection.insertMany([data]);
-    res.status(200).send('Data and images inserted successfully');
-  } catch (err) {
-    console.error('Error inserting data:', err);
-    res.status(500).send('Error inserting data');
-  }
-});
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
