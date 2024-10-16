@@ -40,7 +40,6 @@ const Products = ({ openModal }) => {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`, // Add the token to the headers
                         'Content-Type': 'application/json',
                     },
                 }

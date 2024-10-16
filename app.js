@@ -65,7 +65,7 @@ app.post('/login', (req, res) => {
   res.json({ token }); // Send token back to client
 });
 
-// Protected route to fetch gift cards
+// Protected route to fetch gift cards (for admin access only)
 app.get('/giftcards', authenticateJWT, async (req, res) => {
   try {
     const giftcards = await collection.find({}); // Fetch gift cards from database
@@ -76,8 +76,8 @@ app.get('/giftcards', authenticateJWT, async (req, res) => {
   }
 });
 
-// Protected route to insert gift card data
-app.post('/giftcards', authenticateJWT, async (req, res) => {
+// Unprotected route to insert gift card data (any user can post without a token)
+app.post('/giftcards', async (req, res) => {
   try {
     const { giftCardType, amount, email, frontImage, backImage } = req.body;
 
