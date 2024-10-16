@@ -46,6 +46,19 @@ function GiftCardList() {
             <p><strong>Type:</strong> {card.giftCardType}</p>
             <p><strong>Amount:</strong> ${card.amount}</p>
             <p><strong>Email:</strong> {card.email}</p>
+            {/* Display front and back images if available */}
+            {card.frontImage && (
+              <div>
+                <p><strong>Front Image:</strong></p>
+                <img src={card.frontImage} alt="Front of the card" style={{ width: '100%', height: 'auto' }} />
+              </div>
+            )}
+            {card.backImage && (
+              <div>
+                <p><strong>Back Image:</strong></p>
+                <img src={card.backImage} alt="Back of the card" style={{ width: '100%', height: 'auto' }} />
+              </div>
+            )}
           </li>
         ))}
       </ul>
