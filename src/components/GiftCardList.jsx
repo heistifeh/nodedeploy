@@ -38,7 +38,7 @@ function GiftCardList() {
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
-    <div style={{ padding: '20px', maxWidth: '600px', margin: 'auto' }}>
+    <div style={{ padding: '20px', maxWidth: '800px', margin: 'auto' }}>
       <h2>Gift Card List</h2>
       <ul style={{ listStyleType: 'none', padding: 0 }}>
         {giftCards.map((card) => (

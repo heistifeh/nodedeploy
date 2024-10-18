@@ -18,6 +18,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 80%;
     max-width: 500px; /* limits the modal width */
+    text-transform: uppercase; 
 }
 
 .close-button {
@@ -48,3 +49,4 @@
 p{
     margin: 20px 0;
 }
+

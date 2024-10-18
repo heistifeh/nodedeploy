@@ -43,9 +43,10 @@ const Banner = () => {
             <input type="text" name='search' placeholder='search your product' id='search' value={searchInput} onChange={handleSearch}/>
           </form>
           <p>{desc}</p>
-          <button className="btn-form get-started">
-            <Link to={'/verify'}> Verify now</Link>
-          </button>
+          <Link to={'/verify'} className='click-verify'>
+              Verify now
+          </Link>
+          
           <ul className="lab-ul">
             {
               searchInput && filteredProducts.map((product, i) => 
@@ -58,9 +59,9 @@ const Banner = () => {
           </ul>
         </div>
         <div className='media-button'>
-          <button className="btn-form get-started media-button">
-              <Link to={'/verify'}> Verify Card</Link>
-          </button>
+          <Link to={'/verify'} className='click-verify'>
+                Verify now
+          </Link>
         </div>
         
     </div>

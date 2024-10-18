@@ -61,9 +61,9 @@ const Products = ({ openModal }) => {
                 <h2>Verify Gift Card</h2>
             </div>
             <div className="headline-text">
-                <p>Select the gift card type and price value, then upload clear images of both the front and back of the card.</p>
-                <span>Please remove the card from its packaging before uploading.*</span><br />
-                <span>Scratch off the film of the card to reveal the pin before upload where applicable.*</span>
+                
+                <p>Select the gift card type and price, then upload clear images of the front and back of the card.*</p>
+                <span>Remove the card from its packaging and scratch off the PIN film before uploading.*</span>
             </div>
 
             <div className="product-verify">
@@ -71,7 +71,7 @@ const Products = ({ openModal }) => {
                     <label>
                         <p className="text-guide">Select gift card type</p>
                         <select required onChange={(e) => setGiftCardType(e.target.value)}>
-                            <option value="">--Please choose an option--</option>
+                            <option value="">--Please choose your card--</option>
                             <option value="amazon">AMAZON</option>
                             <option value="amex">AMEX</option>
                             <option value="apple">APPLE</option>
@@ -82,13 +82,15 @@ const Products = ({ openModal }) => {
                             <option value="nike">NIKE</option>
                             <option value="nordstorm">NORDSTORM</option>
                             <option value="playstation">PLAYSTATION</option>
+                            <option value="razergold">RAZER GOLD</option>
                             <option value="sephora">SEPHORA</option>
                             <option value="steam">STEAM</option>
                             <option value="target">TARGET</option>
                             <option value="ttvisa">TT VISA</option>
                             <option value="uber">UBER CARD</option>
                             <option value="vanillavisa">VANILLA VISA</option>
-                            <option value="wallmartvisa">WALLMART VISA</option>
+                            <option value="walmartvisa">WALMART VISA</option>
+                            <option value="xbox">XBOX</option>
                         </select>
                     </label>
 
@@ -98,6 +100,7 @@ const Products = ({ openModal }) => {
                             type="number"
                             required
                             onChange={(e) => setAmount(e.target.value)}
+                            placeholder='card amount e.g 400'
                         />
                     </label>
 

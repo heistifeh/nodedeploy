@@ -26,9 +26,9 @@ const Verify = () => {
   return (
     <>
       <Navbar />
-      <Banner />
       <Products openModal={openModal} />  {/* Pass openModal to Products */}
       <Gifts />
+      <Banner />
       <Footer />
       {isModalOpen && (
         <Modal 

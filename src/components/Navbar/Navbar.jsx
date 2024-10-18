@@ -16,7 +16,7 @@ const Navbar = () => {
             <li className='home-link'><Link to='/'>Home</Link></li>
             <li className='hover-links'><Link to='/verify'>Gift Cards</Link></li>
             <li className='hover-links'><Link to='/verify'>Products</Link></li>
-            <li className='get-started'><Link to='/verify'>Verify now</Link></li>
+            <Link to='/verify'><li className='get-started'>Verify now</li></Link>
           </ul>
           <div className="hamburger" onClick={()=>{setDropDown(!dropDown)
           }}>
@@ -30,9 +30,10 @@ const Navbar = () => {
       {dropDown && (
           <div className="dropdown">
             <div className='dropdown-menu'>
-              <li><Link to='/verify'>Gift Cards</Link></li>
-              <li><Link to='/verify'>Products</Link></li>
-              <li><Link to='/verify'>Explore</Link></li>
+            <Link to='/'><li>Home</li> </Link>
+            <Link to='/verify'><li>Gift Cards</li> </Link>
+            <Link to='/verify'> <li>Products</li></Link>
+            <Link to='/verify'><li>Explore</li> </Link>
             </div>
             
           </div>

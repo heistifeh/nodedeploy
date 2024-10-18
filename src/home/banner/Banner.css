@@ -45,6 +45,24 @@ span {
     left: 70%; /* Center the image */
     animation: moveLayer2 10s ease-in-out infinite;
 }
+
+.click-verify{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: var(--primary-color);
+    box-sizing: border-box;
+    border-radius: 3px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.click-verify:hover{
+    background-color: var(--primary-color-hover); /* Define this variable or use a specific color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.click-verify:focus{
+    color: green;
+}
 /* layer Animation */
 @keyframes moveLayer1 {
     0% { top: 50%; left: 20%; }
@@ -148,6 +166,12 @@ form{
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    .media-button a{
+        color: #2c346D;
+    }
+    .media-button a:focus{
+        color: green;
     }
     .banner-container {
         width: 70%;
